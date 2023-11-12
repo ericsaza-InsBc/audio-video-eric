@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Demo Àudio i Vídeo</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
     <!-- Deixem l'etiqueta audio sense controls. Veieu que desapareix tot. -->
     <audio id="player">
@@ -19,43 +22,92 @@
         <div class="ocean">
             <div class="wave"></div>
             <div class="wave"></div>
-          </div>
+        </div>
     </div>
     <!-- Afegim un botó de control per engegar la música. Utilitzem una font d'icones. -->
     <div class="controlButtons">
-        <!-- Engeguem l'àudio en fer click. -->
-        <button type="button" onclick="engegarAudio();">
+
+        <!-- Buttons personalitzats trets de Uiverse -->
+        <a class="button" id="botoAudio" onclick="canviarEstatAudio();">
             <span class="material-symbols-outlined">
                 play_arrow
             </span>
-        </button>
+        </a>
+        <a class="button" onclick="reiniciarAudio();">
+            <span class="material-symbols-outlined">
+                stop
+            </span>
+        </a>
     </div>
     <!-- Recordeu que heu de seguir les lleis en matèria de propietat intelectual.
          En aquest cas, cal nomenar i enllaçar l'autor i el tipus de llicència. 
     -->
     <div style="padding: 1em; margin-bottom: 1em; border: 1px; background-color: #eee;">
-        "<a rel="nofollow" href="https://timtaj.com/royalty-free-music/background-technology">Background Technology</a>" 
-        by <a rel="nofollow" href="https://freemusicarchive.org/music/timtaj/contact">Taj Tim</a> 
-        is licensed under <a rel="nofollow" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">Attribution-NonCommercial-NoDerivatives 4.0 International License</a>
+        "<a rel="nofollow" href="https://timtaj.com/royalty-free-music/background-technology">Background Technology</a>"
+        by <a rel="nofollow" href="https://freemusicarchive.org/music/timtaj/contact">Taj Tim</a>
+        is licensed under <a rel="nofollow"
+            href="https://creativecommons.org/licenses/by-nc-nd/4.0/">Attribution-NonCommercial-NoDerivatives 4.0
+            International License</a>
     </div>
     <div style="padding: 1em; margin-bottom: 1em; border: 1px; background-color: #eee;">
-        "Animació CSS de <a rel="nofollow" href="https://codepen.io/tedmcdo">Ted MacDonald</a>: 
+        "Animació CSS de <a rel="nofollow" href="https://codepen.io/tedmcdo">Ted MacDonald</a>:
         a CodePen <a rel="nofollow" href="https://codepen.io/tedmcdo/pen/PqxKXg">CSS & SVG Waves Animation</a>
     </div>
     <!-- Cal seleccionar l'element d'àudio. -->
     <script>
         let audio = document.getElementById('player');
 
-        function engegarAudio() {
-            // engeguem audio
-            audio.play();
-            // engeguem animació
+        // Agafem elements del boto
+        let botoAudio = document.getElementById('botoAudio');
+        let botoSpan = botoAudio.querySelector('span');
+
+        // Quan es pari, tornará al ultim temps de reproducció
+        let lastCurrentTime = 0;
+
+        function canviarEstatAudio() {
+            lastCurrentTime = audio.currentTime;
+
+            // Si l'audio està pausat, el posem en marxa i canviem el text del botó
+            // Si no està pausat, el parem i reiniciem el temps de reproducció
+            if (audio.paused) {
+                audio.play();
+                botoSpan.innerHTML = 'pause';
+            } else {
+                audio.pause();
+                audio.currentTime = lastCurrentTime;
+                botoSpan.innerHTML = 'play_arrow';
+            }
+
             var waves = document.querySelectorAll('.wave');
             for (var i = 0; i < waves.length; i++) {
-                waves[i].classList.add('playing');
+
+                // Si l'audio està pausat, parem l'animació
+                waves[i].classList.toggle('playing', !audio.paused);
+
+                // Si l'audio està pausat, parem l'animació, pero no la reiniciem
             }
         }
 
+        function reiniciarAudio() {
+
+            // Al reiniciar l'audio, el posem al principi el botó de play
+            botoSpan.innerHTML = 'play_arrow';
+
+            // parem audio
+            audio.pause();
+            audio.currentTime = 0;
+
+            // parem animació
+            var waves = document.querySelectorAll('.wave');
+            for (var i = 0; i < waves.length; i++) {
+                waves[i].classList.remove('playing');
+            }
+        }
+
+
+
+
     </script>
 </body>
+
 </html>
