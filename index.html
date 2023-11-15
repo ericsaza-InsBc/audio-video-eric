@@ -1,20 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Demo Àudio i Vídeo</title>
+    <style>
+        /* Estils per als botons */
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #000;
+            border-radius: 9999px;
+            background-color: rgba(0, 0, 0, 1);
+            padding: 0.625rem 1.5rem;
+            text-align: center;
+            color: rgba(255, 255, 255, 1);
+            outline: 0;
+            transition: all .2s ease;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: transparent;
+            color: rgba(0, 0, 0, 1);
+        }
+
+        .icon {
+            height: 1.5rem;
+            width: 1.5rem;
+        }
+
+        .texts {
+            margin-left: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            line-height: 1;
+        }
+
+        .text-1 {
+            margin-bottom: 0.25rem;
+            font-size: 0.75rem;
+            line-height: 1rem;
+        }
+
+        .text-2 {
+            font-weight: 600;
+        }
+        #fotograma {
+            border: 2px solid black;
+            margin-left: 10px;
+            width: 640px;
+            height: 360px;
+        }
+        
+        video {
+            width: 640px;
+            height: 360px;
+        }
+    </style>
 </head>
+
 <body>
     <audio controls>
         <source src="media/techbg.mp3" type="audio/mp3">
         Ho sento, el teu navegador no suporta àudio d'HTML5.
     </audio>
     <div style="padding: 1em; margin-bottom: 1em; border: 1px; background-color: #eee;">
-        "<a rel="nofollow" class="external text" href="https://timtaj.com/royalty-free-music/background-technology">Background Technology</a>" 
-        by <a rel="nofollow" class="external text" href="https://freemusicarchive.org/music/timtaj/contact">Taj Tim</a> 
-        is licensed under <a rel="nofollow" class="external text" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">Attribution-NonCommercial-NoDerivatives 4.0 International License</a>
+        "<a rel="nofollow" class="external text"
+            href="https://timtaj.com/royalty-free-music/background-technology">Background Technology</a>"
+        by <a rel="nofollow" class="external text" href="https://freemusicarchive.org/music/timtaj/contact">Taj Tim</a>
+        is licensed under <a rel="nofollow" class="external text"
+            href="https://creativecommons.org/licenses/by-nc-nd/4.0/">Attribution-NonCommercial-NoDerivatives 4.0
+            International License</a>
     </div>
     <hr>
     <!-- L'etiqueta <video> també accepta varies propietats: height, width, autoplay... 
@@ -34,5 +96,33 @@
         <track src="media/captions/metro-es.vtt" label="Espanyol" kind="captions" srclang="es">
         El teu navegador no suporta l'element HTML vídeo.
     </video>
+    
+    <!-- Canvas on es mostrará els fotogramas -->
+    <canvas id="fotograma"></canvas>
+    <br>
+    <a class="button" onclick="pararFotograma();">
+        <span>
+            Veure fotograma
+        </span>
+    </a>
+    <script>
+
+        // Quan pulsem el botó, es crida aquesta funció
+        function pararFotograma() {
+
+            // Guardem elements en variables
+            var video = document.querySelector('video');
+            var canvas = document.getElementById('fotograma');
+            var context = canvas.getContext('2d');
+
+            // Establim les dimensions del canvas
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+
+            // Dibuixem el fotograma actual
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        }
+    </script>
 </body>
+
 </html>
